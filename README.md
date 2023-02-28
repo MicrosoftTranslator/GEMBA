@@ -35,3 +35,10 @@ python main.py
 export PYTHONPATH=mt-metrics-eval:$PYTHONPATH
 python evaluate.py
 ```
+
+## License
+GEMBA code and data are released under the [CC BY-SA 4.0 license](https://github.com/MicrosoftTranslator/GEMBA/blob/main/LICENSE.md).
+
+## How to Cite
+
+TBA
