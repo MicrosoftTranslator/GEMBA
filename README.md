@@ -1,6 +1,6 @@
 # GEMBA
 
-# Setup
+## Setup
 
 Install required packages with python >= 3.8 
 
@@ -23,13 +23,13 @@ mv ~/.mt-metrics-eval/mt-metrics-eval-v2 mt-metrics-eval-v2
 
 Update credentials in `CREDENTIALS.py` with your own.
 
-# Running GEMBA
+## Running GEMBA
 
 ```
 python main.py
 ```
 
-# Evaluate scores
+## Evaluate scores
 
 ```
 export PYTHONPATH=mt-metrics-eval:$PYTHONPATH
