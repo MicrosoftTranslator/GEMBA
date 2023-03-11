@@ -1244,7 +1244,7 @@ HuaweiTSC	85
 HuaweiTSC	95
 HuaweiTSC	80
 HuaweiTSC	70
-HuaweiTSC	None
+HuaweiTSC	0
 HuaweiTSC	85
 HuaweiTSC	90
 HuaweiTSC	70
@@ -18224,7 +18224,7 @@ Online-Y	75
 Online-Y	70
 Online-Y	75
 Online-Y	75
-Online-Y	None
+Online-Y	0
 Online-Y	95
 Online-Y	90
 Online-Y	75
@@ -21614,7 +21614,7 @@ QUARTZ_TuneReranking	80
 QUARTZ_TuneReranking	15
 QUARTZ_TuneReranking	40
 QUARTZ_TuneReranking	75
-QUARTZ_TuneReranking	None
+QUARTZ_TuneReranking	0
 QUARTZ_TuneReranking	70
 QUARTZ_TuneReranking	80
 QUARTZ_TuneReranking	70
@@ -22214,7 +22214,7 @@ QUARTZ_TuneReranking	95
 QUARTZ_TuneReranking	80
 QUARTZ_TuneReranking	50
 QUARTZ_TuneReranking	70
-QUARTZ_TuneReranking	None
+QUARTZ_TuneReranking	0
 QUARTZ_TuneReranking	80
 QUARTZ_TuneReranking	80
 QUARTZ_TuneReranking	80

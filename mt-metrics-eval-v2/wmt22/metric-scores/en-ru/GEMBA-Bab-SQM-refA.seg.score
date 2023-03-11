@@ -10876,7 +10876,7 @@ Online-B	0
 Online-B	100
 Online-B	50
 Online-B	0
-Online-B	None
+Online-B	0
 Online-B	56
 Online-B	0
 Online-B	72
@@ -12913,7 +12913,7 @@ Online-G	0
 Online-G	60
 Online-G	50
 Online-G	0
-Online-G	None
+Online-G	0
 Online-G	0
 Online-G	73
 Online-G	72
@@ -16048,7 +16048,7 @@ Online-W	0
 Online-W	0
 Online-W	0
 Online-W	0
-Online-W	None
+Online-W	0
 Online-W	80
 Online-W	0
 Online-W	0
@@ -31864,7 +31864,7 @@ eTranslation	0
 eTranslation	0
 eTranslation	80
 eTranslation	60
-eTranslation	None
+eTranslation	49
 eTranslation	0
 eTranslation	0
 eTranslation	0

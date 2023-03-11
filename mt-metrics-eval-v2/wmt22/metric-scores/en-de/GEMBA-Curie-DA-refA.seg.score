@@ -24429,7 +24429,7 @@ bleu_bestmbr	100
 bleu_bestmbr	0
 bleu_bestmbr	0
 bleu_bestmbr	0
-bleu_bestmbr	None
+bleu_bestmbr	11
 bleu_bestmbr	0
 bleu_bestmbr	100
 bleu_bestmbr	100
@@ -25692,7 +25692,7 @@ bleurt_bestmbr	97
 bleurt_bestmbr	0
 bleurt_bestmbr	0
 bleurt_bestmbr	0
-bleurt_bestmbr	None
+bleurt_bestmbr	0
 bleurt_bestmbr	0
 bleurt_bestmbr	0
 bleurt_bestmbr	0
@@ -27729,7 +27729,7 @@ chrf_bestmbr	99
 chrf_bestmbr	0
 chrf_bestmbr	0
 chrf_bestmbr	0
-chrf_bestmbr	None
+chrf_bestmbr	0
 chrf_bestmbr	0
 chrf_bestmbr	0
 chrf_bestmbr	0
