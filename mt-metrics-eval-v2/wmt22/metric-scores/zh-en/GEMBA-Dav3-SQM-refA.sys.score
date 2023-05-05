@@ -11,7 +11,7 @@ Online-B	86.32
 Online-G	87.16
 Online-W	84.28533333333333
 Online-Y	85.23466666666667
-QUARTZ_TuneReranking	79.69050160085379
+QUARTZ_TuneReranking	79.648
 bleu_bestmbr	85.74133333333333
 bleurt_bestmbr	87.512
 chrf_bestmbr	86.34933333333333

@@ -13,7 +13,7 @@ Online-W	4.545066666666667
 Online-Y	4.748266666666667
 QUARTZ_TuneReranking	4.523733333333333
 bleu_bestmbr	4.734933333333333
-bleurt_bestmbr	4.8432
+bleurt_bestmbr	4.844266666666667
 chrf_bestmbr	4.7472
 comet_bestmbr	4.754666666666667
 refA	4.8496

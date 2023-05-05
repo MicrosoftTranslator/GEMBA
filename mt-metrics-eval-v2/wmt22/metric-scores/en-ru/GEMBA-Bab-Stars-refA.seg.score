@@ -9937,12 +9937,12 @@ Online-A	1
 Online-A	1
 Online-A	1
 Online-A	1
+Online-A	2
 Online-A	1
 Online-A	1
 Online-A	1
 Online-A	1
-Online-A	1
-Online-A	1
+Online-A	3
 Online-A	1
 Online-A	1
 Online-A	1
@@ -10828,7 +10828,7 @@ Online-B	1
 Online-B	1
 Online-B	1
 Online-B	1
-Online-B	1
+Online-B	3
 Online-B	1
 Online-B	1
 Online-B	1
@@ -16053,7 +16053,7 @@ Online-W	1
 Online-W	1
 Online-W	1
 Online-W	1
-Online-W	1
+Online-W	3
 Online-W	1
 Online-W	1
 Online-W	1
@@ -18897,7 +18897,7 @@ PROMT	1
 PROMT	1
 PROMT	1
 PROMT	3
-PROMT	1
+PROMT	3
 PROMT	1
 PROMT	1
 PROMT	1
@@ -19073,7 +19073,7 @@ PROMT	1
 PROMT	1
 PROMT	1
 PROMT	1
-PROMT	1
+PROMT	3
 PROMT	1
 PROMT	3
 PROMT	1
@@ -21230,7 +21230,7 @@ QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
-QUARTZ_TuneReranking	1
+QUARTZ_TuneReranking	2
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
@@ -22164,7 +22164,7 @@ QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
-QUARTZ_TuneReranking	1
+QUARTZ_TuneReranking	3
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
 QUARTZ_TuneReranking	1
@@ -22510,7 +22510,7 @@ SRPOL	1
 SRPOL	1
 SRPOL	1
 SRPOL	1
-SRPOL	1
+SRPOL	3
 SRPOL	1
 SRPOL	1
 SRPOL	1
@@ -23147,7 +23147,7 @@ SRPOL	1
 SRPOL	1
 SRPOL	1
 SRPOL	1
-SRPOL	1
+SRPOL	3
 SRPOL	1
 SRPOL	3
 SRPOL	1
@@ -25087,7 +25087,7 @@ bleu_bestmbr	1
 bleu_bestmbr	1
 bleu_bestmbr	1
 bleu_bestmbr	1
-bleu_bestmbr	1
+bleu_bestmbr	3
 bleu_bestmbr	1
 bleu_bestmbr	1
 bleu_bestmbr	1
@@ -27124,7 +27124,7 @@ chrf_bestmbr	1
 chrf_bestmbr	1
 chrf_bestmbr	1
 chrf_bestmbr	1
-chrf_bestmbr	1
+chrf_bestmbr	3
 chrf_bestmbr	1
 chrf_bestmbr	1
 chrf_bestmbr	1
@@ -29258,7 +29258,7 @@ comet_bestmbr	1
 comet_bestmbr	1
 comet_bestmbr	1
 comet_bestmbr	1
-comet_bestmbr	3
+comet_bestmbr	4
 comet_bestmbr	1
 comet_bestmbr	1
 comet_bestmbr	1
