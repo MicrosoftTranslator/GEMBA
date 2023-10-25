@@ -40,19 +40,36 @@ python evaluate.py
 GEMBA code and data are released under the [CC BY-SA 4.0 license](https://github.com/MicrosoftTranslator/GEMBA/blob/main/LICENSE.md).
 
 ## Paper
-You can read more about GEMBA [in our arXiv paper](https://arxiv.org/pdf/2302.14520.pdf).
+You can read more about GEMBA-DA [in our arXiv paper](https://arxiv.org/pdf/2302.14520.pdf) 
+or GEMBA-MQM [in our arXiv paper](https://arxiv.org/pdf/2310.13988.pdf).
 
 ## How to Cite
 
-    @misc{https://doi.org/10.48550/arxiv.2302.14520,
-      doi = {10.48550/ARXIV.2302.14520},
-      url = {https://arxiv.org/abs/2302.14520},
-      author = {Kocmi, Tom and Federmann, Christian},
-      keywords = {Computation and Language (cs.CL), FOS: Computer and information sciences, FOS: Computer and information sciences},
-      title = {Large Language Models Are State-of-the-Art Evaluators of Translation Quality},
-      publisher = {arXiv},
-      year = {2023},
-      copyright = {Creative Commons Attribution 4.0 International}
+
+### GEMBA-MQM 
+
+    @inproceedings{kocmi-federmann-2023-gemba-mqm,
+        title = {GEMBA-MQM: Detecting Translation Quality Error Spans with GPT-4},
+        author = {Kocmi, Tom  and Federmann, Christian},
+        booktitle = "Proceedings of the Eighth Conference on Machine Translation",
+        month = dec,
+        year = "2023",
+        address = "Singapore",
+        publisher = "Association for Computational Linguistics",
+    }
+
+### GEMBA-DA
+
+    @inproceedings{kocmi-federmann-2023-large,
+        title = "Large Language Models Are State-of-the-Art Evaluators of Translation Quality",
+        author = "Kocmi, Tom and Federmann, Christian",
+        booktitle = "Proceedings of the 24th Annual Conference of the European Association for Machine Translation",
+        month = jun,
+        year = "2023",
+        address = "Tampere, Finland",
+        publisher = "European Association for Machine Translation",
+        url = "https://aclanthology.org/2023.eamt-1.19",
+        pages = "193--203",
     }
 
 
