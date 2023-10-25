@@ -74,6 +74,10 @@ class Cache:
         prompt = data['prompt']
         answers = data['answers']
 
+        # if prompt is dictionary or list, convert it to json
+        if type(prompt) == dict or type(prompt) == list:
+            prompt = json.dumps(prompt, ensure_ascii=False)
+
         if len(answers) == 0:
             return
 
@@ -88,6 +92,10 @@ class Cache:
         model = data['model']
         temperature = data['temperature']
         prompt = data['prompt']
+        
+        # if prompt is dictionary or list, convert it to json
+        if type(prompt) == dict or type(prompt) == list:
+            prompt = json.dumps(prompt, ensure_ascii=False)
 
         if model in self.cache and \
            temperature in self.cache[model] and \
