@@ -1,4 +1,4 @@
-# GEMBA
+# GEMBA-MQM and GEMBA-DA
 
 ## Setup
 
@@ -7,6 +7,27 @@ Install required packages with python >= 3.8
 ```
 pip install -r requirements.txt
 ```
+
+Update credentials in `CREDENTIALS.py` with your own.
+
+## Scoring with GEMBA-MQM
+
+### Evaluating script with GEMBA-MQM
+
+It assume two files with the same number of lines. It prints the score for each line pair:
+
+```
+python gemba_mqm.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech
+```
+
+
+## Collecting experiments for GEMBA-DA
+
+```
+python main.py
+```
+
+### Evaluate scores with GEMBA-DA 
 
 Get mt-metric-eval and download resources:
 
@@ -20,27 +41,7 @@ cd ..
 mv ~/.mt-metrics-eval/mt-metrics-eval-v2 mt-metrics-eval-v2
 ```
 
-
-Update credentials in `CREDENTIALS.py` with your own.
-
-## Running GEMBA
-
-### Evaluating script with GEMBA-MQM
-
-It assume two files with the same number of lines. It prints the score for each line pair:
-
-```
-python gemba_mqm.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech
-```
-
-
-### Collecting experiments for GEMBA-DA
-
-```
-python main.py
-```
-
-## Evaluate scores
+Run the scorer
 
 ```
 export PYTHONPATH=mt-metrics-eval:$PYTHONPATH
