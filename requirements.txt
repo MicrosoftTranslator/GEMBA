@@ -3,3 +3,5 @@ pandas
 termcolor
 pexpect
 scipy
+ipdb
+absl-py

@@ -25,6 +25,17 @@ Update credentials in `CREDENTIALS.py` with your own.
 
 ## Running GEMBA
 
+### Evaluating script with GEMBA-MQM
+
+It assume two files with the same number of lines. It prints the score for each line pair:
+
+```
+python gemba_mqm.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech
+```
+
+
+### Collecting experiments for GEMBA-DA
+
 ```
 python main.py
 ```
