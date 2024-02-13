@@ -2,8 +2,10 @@ import openai
 import sys
 import time
 import ipdb
+import logging
 from termcolor import colored
 from datetime import datetime
+from openai import OpenAI
 
 
 # class for calling OpenAI API and handling cache
@@ -24,7 +26,8 @@ class GptApi:
             self.api_type = "azure"
         else:
             # OpenAI API access
-            openai.api_key = credentials["api_key"]
+            self.client = OpenAI(api_key = credentials["api_key"])
+            OpenAI.api_key = credentials["api_key"]
             self.api_type = "openai"
 
         # limit the number of requests per second
@@ -34,7 +37,8 @@ class GptApi:
             self.rps_limit = 0
         self.last_call_timestamp = 0
 
-        self.non_batchable_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-32k"]
+        self.non_batchable_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-32k", "gpt-4-0125-preview"]
+        logging.getLogger().setLevel(logging.CRITICAL) # in order to suppress all these HTTP INFO log messages
 
     # answer_id is used for determining if it was the top answer or how deep in the list it was
     def request(self, prompt, model, parse_response, temperature=0, answer_id=-1, cache=None, max_tokens=20):
@@ -102,7 +106,7 @@ class GptApi:
         elif temperature >= 5:
             n = 20
 
-        if max_tokens > 500 or temperature > 10:
+        if max_tokens > 5000 or temperature > 10:
             return []
 
         dt = datetime.now()
@@ -128,20 +132,17 @@ class GptApi:
                 time.sleep(1)
 
         answers = []
-        for choice in response["choices"]:
-            if "message" in choice:
-                answer = choice['message']['content'].strip()
-            else:
-                answer = choice['text'].strip()
+        for choice in response.choices:
+            answer = choice.message.content.strip()
             # one of the responses didn't finish, we need to request more tokens
-            if choice["finish_reason"] != "stop":
+            if choice.finish_reason != "stop":
                 if self.verbose:
                     print(colored(f"Increasing max tokens to fit answers.", "red") + colored(answer, "blue"), file=sys.stderr)
                 return self.request_api(prompt, model, temperature=temperature, max_tokens=max_tokens + 200)
 
             answers.append({
                 "answer": answer,
-                "finish_reason": choice["finish_reason"],
+                "finish_reason": choice.finish_reason,
             })
 
         if len(answers) > 1:
@@ -158,9 +159,9 @@ class GptApi:
             "n": n,
             "frequency_penalty": 0,
             "presence_penalty": 0,
-            "stop": None,
-            "request_timeout": 30
+            "stop": None
         }
+        #"request_timeout": 30
 
         if self.api_type == "azure":
             parameters["engine"] = self.deployments[model]
@@ -181,13 +182,13 @@ class GptApi:
                     "content": prompt,
                 }]
 
-            completion_function = openai.ChatCompletion.create
+            completion_function = self.client.chat.completions.create
         else:
             # check that prompt is a list of strings
             assert isinstance(prompt, str), "prompt must be a strings."
 
             parameters["prompt"] = prompt
-            completion_function = openai.Completion.create
+            completion_function = self.client.chat.completions.create
 
         return completion_function(**parameters)
     
