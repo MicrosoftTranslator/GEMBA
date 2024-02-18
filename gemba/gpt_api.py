@@ -1,11 +1,10 @@
-import openai
 import sys
 import time
 import ipdb
 import logging
 from termcolor import colored
 from datetime import datetime
-from openai import OpenAI
+import openai
 
 
 # class for calling OpenAI API and handling cache
@@ -26,18 +25,17 @@ class GptApi:
             self.api_type = "azure"
         else:
             # OpenAI API access
-            self.client = OpenAI(api_key = credentials["api_key"])
-            OpenAI.api_key = credentials["api_key"]
+            openai.api_key = credentials["api_key"]
             self.api_type = "openai"
 
         # limit the number of requests per second
-        if "requests_per_second_limit" in credentials:
+        if "requests_per_second_limit" in credentials and credentials["requests_per_second_limit"] > 0:
             self.rps_limit = 1 / credentials["requests_per_second_limit"]
         else:
             self.rps_limit = 0
         self.last_call_timestamp = 0
 
-        self.non_batchable_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-32k", "gpt-4-0125-preview"]
+        self.non_batchable_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-32k"]
         logging.getLogger().setLevel(logging.CRITICAL) # in order to suppress all these HTTP INFO log messages
 
     # answer_id is used for determining if it was the top answer or how deep in the list it was
@@ -133,7 +131,11 @@ class GptApi:
 
         answers = []
         for choice in response.choices:
-            answer = choice.message.content.strip()
+            if "message" in choice:
+                answer = choice['message']['content'].strip()
+            else:
+                answer = choice['text'].strip()
+                
             # one of the responses didn't finish, we need to request more tokens
             if choice.finish_reason != "stop":
                 if self.verbose:
@@ -159,9 +161,9 @@ class GptApi:
             "n": n,
             "frequency_penalty": 0,
             "presence_penalty": 0,
-            "stop": None
+            "stop": None,
+            "request_timeout": 30
         }
-        #"request_timeout": 30
 
         if self.api_type == "azure":
             parameters["engine"] = self.deployments[model]
@@ -174,7 +176,6 @@ class GptApi:
                 assert all(isinstance(p, dict) for p in prompt), "Prompts must be a list of dictionaries."
                 assert all("role" in p and "content" in p for p in prompt), "Prompts must be a list of dictionaries with role and content."
 
-
                 parameters["messages"] = prompt
             else:
                 parameters["messages"] = [{
@@ -182,13 +183,13 @@ class GptApi:
                     "content": prompt,
                 }]
 
-            completion_function = self.client.chat.completions.create
+            completion_function = openai.ChatCompletion.create
         else:
             # check that prompt is a list of strings
             assert isinstance(prompt, str), "prompt must be a strings."
 
             parameters["prompt"] = prompt
-            completion_function = self.client.chat.completions.create
+            completion_function = openai.Completion.create
 
         return completion_function(**parameters)
     

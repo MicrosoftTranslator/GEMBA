@@ -9,7 +9,8 @@ from gemba.scores import Scores
 def main():
     scenarios = [
         ["text-davinci-003", "GEMBA-DA", [["wmt22", "en-de"], ["wmt22", "zh-en"], ["wmt22", "en-ru"]], ],
-        ["text-davinci-003", "GEMBA-DA_ref", [["wmt22", "en-de"], ["wmt22", "zh-en"], ["wmt22", "en-ru"]], ],
+        # ["text-davinci-003", "GEMBA-DA_ref", [["wmt22", "en-de"], ["wmt22", "zh-en"], ["wmt22", "en-ru"]], ],
+        ["gpt-4", "GEMBA-DA", [["wmt22", "en-de"], ["wmt22", "zh-en"], ["wmt22", "en-ru"]], ],
     ]
 
     gptapi = GptApi(credentials)
