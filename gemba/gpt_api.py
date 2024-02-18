@@ -18,15 +18,20 @@ class GptApi:
 
         if "api_base" in credentials:
             # Azure API access
-            openai.api_type = "azure"
-            openai.api_version = "2023-05-15"
-            openai.api_base = credentials["api_base"]
-            openai.api_key = credentials["api_key"]
             self.api_type = "azure"
+            self.client = openai.AzureOpenAI(
+                api_key=credentials["api_key"],  
+                api_version="2023-12-01-preview",
+                azure_endpoint=credentials["api_base"],
+                timeout=60
+            )
         else:
             # OpenAI API access
-            openai.api_key = credentials["api_key"]
             self.api_type = "openai"
+            self.client = openai.OpenAI(
+                api_key=credentials["api_key"],
+                timeout=60
+            )
 
         # limit the number of requests per second
         if "requests_per_second_limit" in credentials and credentials["requests_per_second_limit"] > 0:
@@ -131,10 +136,10 @@ class GptApi:
 
         answers = []
         for choice in response.choices:
-            if "message" in choice:
-                answer = choice['message']['content'].strip()
+            if hasattr(choice, "message"):
+                answer = choice.message.content.strip()
             else:
-                answer = choice['text'].strip()
+                answer = choice.text.strip()
                 
             # one of the responses didn't finish, we need to request more tokens
             if choice.finish_reason != "stop":
@@ -162,13 +167,8 @@ class GptApi:
             "frequency_penalty": 0,
             "presence_penalty": 0,
             "stop": None,
-            "request_timeout": 30
+            "model": self.deployments[model]
         }
-
-        if self.api_type == "azure":
-            parameters["engine"] = self.deployments[model]
-        else:
-            parameters["model"] = self.deployments[model]
 
         if model in self.non_batchable_models:
             if isinstance(prompt, list):
@@ -183,13 +183,13 @@ class GptApi:
                     "content": prompt,
                 }]
 
-            completion_function = openai.ChatCompletion.create
+            completion_function = self.client.chat.completions.create
         else:
             # check that prompt is a list of strings
             assert isinstance(prompt, str), "prompt must be a strings."
 
             parameters["prompt"] = prompt
-            completion_function = openai.Completion.create
+            completion_function = self.client.completions.create
 
         return completion_function(**parameters)
     
