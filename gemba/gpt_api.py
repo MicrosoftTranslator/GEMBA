@@ -32,7 +32,6 @@ class GptApi:
         else:
             raise Exception("OPENAI_API_KEY or OPENAI_AZURE_KEY not found in environment")
 
-        self.non_batchable_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-32k"]
         logging.getLogger().setLevel(logging.CRITICAL)  # in order to suppress all these HTTP INFO log messages
 
     # answer_id is used for determining if it was the top answer or how deep in the list it was
@@ -145,28 +144,19 @@ class GptApi:
             "model": model
         }
 
-        if model in self.non_batchable_models:
-            if isinstance(prompt, list):
-                # check that prompt contain list of dictionaries with role and content
-                assert all(isinstance(p, dict) for p in prompt), "Prompts must be a list of dictionaries."
-                assert all("role" in p and "content" in p for p in prompt), "Prompts must be a list of dictionaries with role and content."
+        if isinstance(prompt, list):
+            # check that prompt contain list of dictionaries with role and content
+            assert all(isinstance(p, dict) for p in prompt), "Prompts must be a list of dictionaries."
+            assert all("role" in p and "content" in p for p in prompt), "Prompts must be a list of dictionaries with role and content."
 
-                parameters["messages"] = prompt
-            else:
-                parameters["messages"] = [{
-                    "role": "user",
-                    "content": prompt,
-                }]
-
-            completion_function = self.client.chat.completions.create
+            parameters["messages"] = prompt
         else:
-            # check that prompt is a list of strings
-            assert isinstance(prompt, str), "prompt must be a strings."
+            parameters["messages"] = [{
+                "role": "user",
+                "content": prompt,
+            }]
 
-            parameters["prompt"] = prompt
-            completion_function = self.client.completions.create
-
-        return completion_function(**parameters)
+        return self.client.chat.completions.create(**parameters)
     
     def bulk_request(self, df, model, parse_mqm_answer, cache, max_tokens=20):
         answers = []
