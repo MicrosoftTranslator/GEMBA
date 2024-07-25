@@ -4,7 +4,6 @@ import ipdb
 import pandas as pd
 import diskcache as dc
 from gemba.gpt_api import GptApi
-from gemba.CREDENTIALS import credentials
 from gemba.gemba_mqm_utils import TEMPLATE_GEMBA_MQM, apply_template, parse_mqm_answer
 
 from absl import app, flags
@@ -50,9 +49,8 @@ def main(argv):
 
     df["prompt"] = df.apply(lambda x: apply_template(TEMPLATE_GEMBA_MQM, x), axis=1)
 
-    gptapi = GptApi(credentials, verbose=FLAGS.verbose)
+    gptapi = GptApi(verbose=FLAGS.verbose)
     cache = dc.Cache(f'cache/{model}_GEMBA-MQM', expire=None, size_limit=int(10e10), cull_limit=0, eviction_policy='none')
-
 
     answers = gptapi.bulk_request(df, model, lambda x: parse_mqm_answer(x, list_mqm_errors=False, full_desc=True), cache=cache, max_tokens=500)
     

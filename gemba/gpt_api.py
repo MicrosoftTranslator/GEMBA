@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import ipdb
@@ -9,47 +10,38 @@ import openai
 
 # class for calling OpenAI API and handling cache
 class GptApi:
-    def __init__(self, credentials, verbose=True):
-        assert "api_key" in credentials, "api_key not found in credentials"
-        assert "deployments" in credentials, "deployments not found in credentials"
-
-        self.deployments = credentials["deployments"]
+    def __init__(self, verbose=True):
         self.verbose = verbose
 
-        if "api_base" in credentials:
-            # Azure API access
-            self.api_type = "azure"
-            self.client = openai.AzureOpenAI(
-                api_key=credentials["api_key"],  
-                api_version="2023-12-01-preview",
-                azure_endpoint=credentials["api_base"],
-                timeout=60
-            )
-        else:
-            # OpenAI API access
-            self.api_type = "openai"
-            self.client = openai.OpenAI(
-                api_key=credentials["api_key"],
-                timeout=60
-            )
+        if "OPENAI_AZURE_ENDPOINT" in os.environ:
+            assert "OPENAI_AZURE_KEY" in os.environ, "OPENAI_AZURE_KEY not found in environment"
 
-        # limit the number of requests per second
-        if "requests_per_second_limit" in credentials and credentials["requests_per_second_limit"] > 0:
-            self.rps_limit = 1 / credentials["requests_per_second_limit"]
+            # Azure API access
+            self.client = openai.AzureOpenAI(
+                api_key=os.environ["OPENAI_AZURE_KEY"],
+                azure_endpoint=os.environ["OPENAI_AZURE_ENDPOINT"],
+                api_version="2023-07-01-preview",
+                timeout=60
+            )
+        elif "OPENAI_API_KEY" in os.environ:
+            # OpenAI API access
+            self.client = openai.OpenAI(
+                api_key=os.environ["OPENAI_API_KEY"],
+                timeout=60
+            )
         else:
-            self.rps_limit = 0
-        self.last_call_timestamp = 0
+            raise Exception("OPENAI_API_KEY or OPENAI_AZURE_KEY not found in environment")
 
         self.non_batchable_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-32k"]
-        logging.getLogger().setLevel(logging.CRITICAL) # in order to suppress all these HTTP INFO log messages
+        logging.getLogger().setLevel(logging.CRITICAL)  # in order to suppress all these HTTP INFO log messages
 
     # answer_id is used for determining if it was the top answer or how deep in the list it was
     def request(self, prompt, model, parse_response, temperature=0, answer_id=-1, cache=None, max_tokens=20):
         request = {"model": model, "temperature": temperature, "prompt": prompt}
 
-        answers = cache[request]
-
-        if answers is None:
+        if request in cache and cache[request] is not None:
+            answers = cache[request]
+        else:
             answers = self.request_api(prompt, model, temperature, max_tokens)
             cache[request] = answers
 
@@ -102,13 +94,6 @@ class GptApi:
         if max_tokens > 5000 or temperature > 10:
             return []
 
-        dt = datetime.now()
-        ts = datetime.timestamp(dt)
-        if ts - self.last_call_timestamp < self.rps_limit:
-            time.sleep(self.rps_limit - (ts - self.last_call_timestamp))
-
-        self.last_call_timestamp = ts
-
         while True:
             try:
                 response = self.call_api(prompt, model, n, temperature, max_tokens)
@@ -157,7 +142,7 @@ class GptApi:
             "frequency_penalty": 0,
             "presence_penalty": 0,
             "stop": None,
-            "model": self.deployments[model]
+            "model": model
         }
 
         if model in self.non_batchable_models:

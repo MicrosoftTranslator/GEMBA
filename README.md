@@ -8,13 +8,24 @@ Install required packages with python >= 3.8
 pip install -r requirements.txt
 ```
 
-Update credentials in `CREDENTIALS.py` with your own.
+Set up secrets either for Azure API or OpenAI API: 
+
+```
+export OPENAI_AZURE_ENDPOINT=
+export OPENAI_AZURE_KEY=
+```
+
+or
+
+```
+export OPENAI_API_KEY=
+```
 
 ## Scoring with GEMBA-MQM
 
 ### Evaluating script with GEMBA-MQM
 
-It assume two files with the same number of lines. It prints the score for each line pair:
+It assumes two files with the same number of lines. It prints the score for each line pair:
 
 ```
 python gemba_mqm.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech

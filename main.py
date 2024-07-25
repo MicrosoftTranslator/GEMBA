@@ -1,5 +1,4 @@
 import diskcache as dc
-from gemba.CREDENTIALS import credentials
 from gemba.prompt import prompts, language_codes
 from gemba.gpt_api import GptApi
 from gemba.testset import Testset
@@ -12,7 +11,7 @@ def main():
         ["text-davinci-003", "GEMBA-DA_ref", [["wmt22", "en-de"], ["wmt22", "zh-en"], ["wmt22", "en-ru"]], ],
     ]
 
-    gptapi = GptApi(credentials)
+    gptapi = GptApi()
     for scenario in scenarios:
         use_model = scenario[0]
         annotation = scenario[1]
