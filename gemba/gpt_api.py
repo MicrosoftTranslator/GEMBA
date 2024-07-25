@@ -45,23 +45,13 @@ class GptApi:
 
     # answer_id is used for determining if it was the top answer or how deep in the list it was
     def request(self, prompt, model, parse_response, temperature=0, answer_id=-1, cache=None, max_tokens=20):
-        answers = None
-        if cache is not None:
-            answers = cache.get({
-                "model": model,
-                "temperature": temperature,
-                "prompt": prompt,
-            })
+        request = {"model": model, "temperature": temperature, "prompt": prompt}
+
+        answers = cache[request]
 
         if answers is None:
             answers = self.request_api(prompt, model, temperature, max_tokens)
-            if cache is not None:
-                cache.add({
-                           "model": model,
-                           "temperature": temperature,
-                           "prompt": prompt,
-                           "answers": answers,
-                          })
+            cache[request] = answers
 
         # there is no valid answer
         if len(answers) == 0:

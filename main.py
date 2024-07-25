@@ -1,7 +1,7 @@
+import diskcache as dc
 from gemba.CREDENTIALS import credentials
 from gemba.prompt import prompts, language_codes
 from gemba.gpt_api import GptApi
-from gemba.cache import Cache
 from gemba.testset import Testset
 from gemba.scores import Scores
 
@@ -16,7 +16,7 @@ def main():
     for scenario in scenarios:
         use_model = scenario[0]
         annotation = scenario[1]
-        cache = Cache(f"{use_model}_{annotation}.jsonl")
+        cache = dc.Cache(f'cache/{use_model}_{annotation}', expire=None, size_limit=int(10e10), cull_limit=0, eviction_policy='none')
 
         scoring_name = f"{annotation}_{use_model}"
 
