@@ -35,7 +35,7 @@ class GptApi:
         logging.getLogger().setLevel(logging.CRITICAL)  # in order to suppress all these HTTP INFO log messages
 
     # answer_id is used for determining if it was the top answer or how deep in the list it was
-    def request(self, prompt, model, parse_response, temperature=0, answer_id=-1, cache=None, max_tokens=20):
+    def request(self, prompt, model, parse_response, temperature=0, answer_id=-1, cache=None, max_tokens=None):
         request = {"model": model, "temperature": temperature, "prompt": prompt}
 
         if request in cache and cache[request] is not None:
@@ -82,7 +82,7 @@ class GptApi:
 
         return parsed_answers
 
-    def request_api(self, prompt, model, temperature=0, max_tokens=20):
+    def request_api(self, prompt, model, temperature=0, max_tokens=None):
         # if temperature is 0, then request only 1 response
         n = 1
         if temperature > 0:
@@ -90,7 +90,7 @@ class GptApi:
         elif temperature >= 5:
             n = 20
 
-        if max_tokens > 5000 or temperature > 10:
+        if temperature > 10:
             return []
 
         while True:
@@ -132,10 +132,9 @@ class GptApi:
 
         return answers
 
-    def call_api(self, prompt, model, n, temperature, max_tokens):        
+    def call_api(self, prompt, model, n, temperature, max_tokens):
         parameters = {
             "temperature": temperature/10,
-            "max_tokens": max_tokens,
             "top_p": 1,
             "n": n,
             "frequency_penalty": 0,
@@ -143,6 +142,9 @@ class GptApi:
             "stop": None,
             "model": model
         }
+
+        if max_tokens is not None:
+            parameters["max_tokens"] = max_tokens
 
         if isinstance(prompt, list):
             # check that prompt contain list of dictionaries with role and content
@@ -158,7 +160,7 @@ class GptApi:
 
         return self.client.chat.completions.create(**parameters)
     
-    def bulk_request(self, df, model, parse_mqm_answer, cache, max_tokens=20):
+    def bulk_request(self, df, model, parse_mqm_answer, cache, max_tokens=None):
         answers = []
         for i, row in df.iterrows():
             prompt = row["prompt"]
