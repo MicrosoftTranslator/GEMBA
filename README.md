@@ -35,7 +35,7 @@ python gemba_mqm.py --source=source.txt --hypothesis=hypothesis.txt --source_lan
 ## Collecting experiments for GEMBA-DA
 
 ```
-python main.py
+python gemba_da.py 
 ```
 
 ### Evaluate scores with GEMBA-DA 
