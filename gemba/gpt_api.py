@@ -10,7 +10,7 @@ import openai
 
 # class for calling OpenAI API and handling cache
 class GptApi:
-    def __init__(self, verbose=True):
+    def __init__(self, verbose=False):
         self.verbose = verbose
 
         if "OPENAI_AZURE_ENDPOINT" in os.environ:

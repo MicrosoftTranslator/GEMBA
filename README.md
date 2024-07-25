@@ -21,24 +21,17 @@ or
 export OPENAI_API_KEY=
 ```
 
-## Scoring with GEMBA-MQM
-
-### Evaluating script with GEMBA-MQM
+## Scoring with GEMBA
 
 It assumes two files with the same number of lines. It prints the score for each line pair:
 
 ```
-python gemba_mqm.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech
+python main.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech --method="GEMBA-MQM" --model="gpt-4"
 ```
 
+The main recommended methods: `GEMBA-MQM` and `GEMBA-DA` with the model `gpt-4`.
 
-## Collecting experiments for GEMBA-DA
-
-```
-python gemba_da.py 
-```
-
-### Evaluate scores with GEMBA-DA 
+## Collecting and evaluating experiments for GEMBA-DA
 
 Get mt-metric-eval and download resources:
 
@@ -52,9 +45,11 @@ cd ..
 mv ~/.mt-metrics-eval/mt-metrics-eval-v2 mt-metrics-eval-v2
 ```
 
-Run the scorer
+Collect data and run the scorer
 
 ```
+python gemba_da.py 
+
 export PYTHONPATH=mt-metrics-eval:$PYTHONPATH
 python evaluate.py
 ```

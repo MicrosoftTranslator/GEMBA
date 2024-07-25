@@ -6,6 +6,7 @@ import diskcache as dc
 from absl import app, flags
 from gemba.gpt_api import GptApi
 from gemba.gemba_mqm_utils import TEMPLATE_GEMBA_MQM, apply_template, parse_mqm_answer
+from gemba.prompt import prompts
 
 
 flags.DEFINE_string('method', "GEMBA-MQM", 'Which method to use?')
@@ -46,18 +47,23 @@ def main(argv):
     df['source_lang'] = FLAGS.source_lang
     df['target_lang'] = FLAGS.target_lang
 
+    cache = dc.Cache(f'cache/{FLAGS.model}_{FLAGS.method}', expire=None, size_limit=int(10e10), cull_limit=0, eviction_policy='none')
+
     if FLAGS.method == "GEMBA-MQM":
         df["prompt"] = df.apply(lambda x: apply_template(TEMPLATE_GEMBA_MQM, x), axis=1)
-        gptapi = GptApi(verbose=FLAGS.verbose)
-        cache = dc.Cache(f'cache/{FLAGS.model}_{FLAGS.method}', expire=None, size_limit=int(10e10), cull_limit=0, eviction_policy='none')
+        gptapi = GptApi()
 
         answers = gptapi.bulk_request(df, FLAGS.model, lambda x: parse_mqm_answer(x, list_mqm_errors=False, full_desc=True), cache=cache, max_tokens=500)
+    elif FLAGS.method in ["GEMBA-DA", "GEMBA-DA_ref", "GEMBA-SQM", "GEMBA-SQM_ref", "GEMBA-stars", "GEMBA-stars_ref", "GEMBA-classes", "GEMBA-classes_ref"]:
+        df["prompt"] = df.apply(lambda x: apply_template(prompts[FLAGS.method]['prompt'], x), axis=1)
+        gptapi = GptApi()
 
-        for answer in answers:
-            print(answer['answer'])
-
+        answers = gptapi.bulk_request(df, FLAGS.model, prompts[FLAGS.method]["validate_answer"], cache=cache, max_tokens=500)
     else:
         raise Exception(f"Method {FLAGS.method} not supported.")
+
+    for answer in answers:
+        print(answer['answer'])
 
 if __name__ == "__main__":
     app.run(main)
