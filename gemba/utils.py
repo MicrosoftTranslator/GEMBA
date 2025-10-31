@@ -7,8 +7,26 @@ from gemba.gemba_esa import TEMPLATE_GEMBA_ESA_ERROR_SPANS, TEMPLATE_GEMBA_ESA_R
 from gemba.prompt import prompts, validate_number
 
 
-def get_gemba_scores(source, hypothesis, source_lang, target_lang, method, model):
+def get_gemba_scores(source, hypothesis, source_lang, target_lang, method, model, reference=None):
+    # Validate reference usage
+    method_uses_ref = method.endswith('_ref')
+    if method_uses_ref and reference is None:
+        raise ValueError(f"Method '{method}' requires a reference, but none was provided. "
+                        f"Please provide a reference file using the --reference flag.")
+    if not method_uses_ref and reference is not None:
+        print(f"Warning: Reference provided but method '{method}' does not use references. "
+              f"Consider using '{method}_ref' to utilize the reference in evaluation.")
+    
+    # Build DataFrame with source and hypothesis
     df = pd.DataFrame({'source_seg': source, 'target_seg': hypothesis})
+    
+    # Add reference if provided
+    if reference is not None:
+        if len(reference) != len(source):
+            raise ValueError(f"Reference has {len(reference)} lines but source has {len(source)} lines. "
+                           f"All files must have the same number of lines.")
+        df['reference_seg'] = reference
+    
     df['source_lang'] = source_lang
     df['target_lang'] = target_lang
 

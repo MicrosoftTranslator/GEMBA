@@ -2,3 +2,6 @@
 .idea
 __pycache__
 cache/
+.env
+*.code-workspace
+.vscode/

@@ -25,11 +25,25 @@ export OPENAI_API_KEY=
 
 It assumes two files with the same number of lines. It prints the score for each line pair:
 
+### Source-only evaluation (no reference)
+
 ```
 python main.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech --method="GEMBA-MQM" --model="gpt-4"
 ```
 
-The main recommended methods: `GEMBA-MQM` and `GEMBA-DA` with the model `gpt-4`.
+### Reference-based evaluation
+
+For reference-based evaluation, use the `_ref` methods and provide a reference file:
+
+```
+python main.py --source=source.txt --hypothesis=hypothesis.txt --reference=reference.txt --source_lang=English --target_lang=Czech --method="GEMBA-DA_ref" --model="gpt-4"
+```
+
+**Available methods:**
+- Source-only: `GEMBA-MQM`, `GEMBA-DA`, `GEMBA-SQM`, `GEMBA-stars`, `GEMBA-classes`
+- Reference-based: `GEMBA-DA_ref`, `GEMBA-SQM_ref`, `GEMBA-stars_ref`, `GEMBA-classes_ref`
+
+The main recommended methods: `GEMBA-MQM` and `GEMBA-DA` (source-only) or `GEMBA-DA_ref` (reference-based) with the model `gpt-4`.
 
 ## Collecting and evaluating experiments for GEMBA-DA
 
