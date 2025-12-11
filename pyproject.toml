@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gemba"
+version = "0.1.0"
+description = "GEMBA translation evaluation utilities and CLI."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE.md" }
+authors = [
+  { name = "Microsoft Translator team" }
+]
+dependencies = [
+  "openai>=1.0.0",
+  "pandas",
+  "termcolor",
+  "pexpect",
+  "scipy",
+  "ipdb",
+  "absl-py",
+  "diskcache",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+eval = ["mt-metrics-eval"]
+
+[project.scripts]
+gemba = "gemba.cli:run"
+
+[tool.setuptools.packages.find]
+include = ["gemba"]
+

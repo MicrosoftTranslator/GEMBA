@@ -7,3 +7,6 @@ ipdb
 absl-py
 diskcache
 tqdm
+
+[eval]
+mt-metrics-eval
