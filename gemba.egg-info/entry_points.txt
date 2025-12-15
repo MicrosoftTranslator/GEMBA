@@ -1,0 +1,2 @@
+[console_scripts]
+gemba = gemba.cli:run

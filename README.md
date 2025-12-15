@@ -2,10 +2,16 @@
 
 ## Setup
 
-Install required packages with python >= 3.8 
+Install the package (Python >= 3.8):
 
 ```
-pip install -r requirements.txt
+pip install .
+```
+
+For editable installs during development:
+
+```
+pip install -e .
 ```
 
 Set up secrets either for Azure API or OpenAI API: 
@@ -26,7 +32,9 @@ export OPENAI_API_KEY=
 It assumes two files with the same number of lines. It prints the score for each line pair:
 
 ```
-python main.py --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech --method="GEMBA-MQM" --model="gpt-4"
+gemba --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech --method="GEMBA-MQM" --model="gpt-4"
+# or
+python -m gemba --source=source.txt --hypothesis=hypothesis.txt --source_lang=English --target_lang=Czech --method="GEMBA-MQM" --model="gpt-4"
 ```
 
 The main recommended methods: `GEMBA-MQM` and `GEMBA-DA` with the model `gpt-4`.
